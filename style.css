@@ -27,10 +27,11 @@
 }
 
 .weatherDisplay {
-  height: 50vh;
+  height: 40vh;
   width: 30vw;
   z-index: 1;
   background-size: cover;
+  background-repeat: no-repeat;
   padding: 15px;
   border-radius: 25px;
   position: relative;
@@ -42,7 +43,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(180deg, gray 25%, black 75%);
+  background: linear-gradient(45deg, transparent, black 90%);
   opacity: 0.1;
   border-radius: 25px;
 }
