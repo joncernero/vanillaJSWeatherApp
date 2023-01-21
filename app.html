@@ -28,6 +28,8 @@
     const weatherDisplay = document.querySelector('.weatherDisplay');
     const dataDisplay = document.querySelector('.dataDisplay')
 
+    console.log("thanks for checking this app out!")
+
     const weatherPics = {
         dawn: "./assets/saad-chaudhry-cYpqYxGeqts-unsplash.jpg",
         day: "./assets/mick-haupt-OVX3oiL5PsE-unsplash.jpg",
@@ -46,7 +48,6 @@
         }
         this.reset()
     }
-
 
     async function fetchWeather(zipCode) {
         const weatherAPI =
