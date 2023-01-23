@@ -12,13 +12,25 @@
 
 <body>
     <div class="container">
+        <h1>Today's Weather</h1>
         <form class="zipcode">
-            Zip Code:<input type="text" name="zip"><br>
+            <label for="zip">Zip Code:</label>&nbsp;
+            <input type="text" name="zip" id="zip">
             <input type="submit" value="submit">
         </form>
         <div class="weatherDisplay">
-            <div class="locationDisplay"></div>
-            <div class="dataDisplay"></div>
+            <section class="dataDisplay"></section>
+        </div>
+        <form class="todoInput">
+            <label for="todo">Todo:</label>&nbsp;
+            <input type="text" name="todo" id="todo">
+            <input type="submit" value="submit">
+        </form>
+        <div class="todoDisplay">
+            <ul class="todoList">
+
+
+            </ul>
         </div>
     </div>
 
@@ -27,7 +39,11 @@
 <script>
     const searchInput = document.querySelector('.zipcode');
     const weatherDisplay = document.querySelector('.weatherDisplay');
-    const dataDisplay = document.querySelector('.dataDisplay')
+    const dataDisplay = document.querySelector('.dataDisplay');
+    const todoDisplay = document.querySelector('.todoDisplay');
+    const todoList = document.querySelector('.todoList');
+    const todoInput = document.querySelector('.todoInput');
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
     console.log("thanks for checking this app out!")
 
@@ -40,8 +56,7 @@
 
     function lookUpZip(e) {
         e.preventDefault()
-        let searchZip;
-        searchZip = this.querySelector('[name=zip]').value
+        let searchZip = this.querySelector('[name=zip]').value;
         if (!searchZip) {
             alert('Please Enter ZipCode')
         } else if (searchZip) {
@@ -91,7 +106,6 @@
         <h1>${content[0].name}</h1>
         <h3>${data.weather[0].description}</h3>
         <h2>${Math.floor(data.main.temp * 1.8 - 459.67)}°</h2>
-        <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="weather icon"/>
         <p>Feels Like: ${Math.floor(data.main.feels_like * 1.8 - 459.67)}°</p>
         <p>Humidity: ${data.main.humidity}%</p>
         <p>Today's High: ${Math.floor(data.main.temp_max * 1.8 - 459.67)}°</p>
@@ -99,7 +113,44 @@
        `
     }
 
+    function addTask(e) {
+        e.preventDefault();
+        const text = this.querySelector('[name=todo]').value
+        const task = {
+            text,
+            done: false,
+        }
+        tasks.push(task)
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        populateTasks(tasks, todoList)
+        this.reset();
+    }
+
+    function populateTasks(tasks = [], todoList) {
+        todoList.innerHTML = tasks.map((task, i) => {
+            return `
+                <li>
+                    <p>${task.text}</p>
+                    <button type="click" name="complete" data-index=${i}>X</button>
+                </li>
+            `
+        }).join('');
+    }
+
+    function removeTask(e) {
+        if (!e.target.matches('button')) return;
+        const elementIndex = e.target.dataset.index;
+        tasks.splice(elementIndex, 1);
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+        populateTasks(tasks, todoList);
+    }
+
+
+
     searchInput.addEventListener('submit', lookUpZip);
+    todoInput.addEventListener('submit', addTask);
+    todoList.addEventListener('click', removeTask)
+    populateTasks(tasks, todoList)
 </script>
 
 </html>
