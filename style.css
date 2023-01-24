@@ -44,7 +44,8 @@ input[type='text'] {
   width: 170px;
 }
 
-.weatherDisplay {
+.weatherDisplay,
+.todoDisplay {
   z-index: 1;
   width: 350px;
   height: 371.5px;
@@ -56,7 +57,8 @@ input[type='text'] {
   isolation: isolate;
 }
 
-.weatherDisplay::after {
+.weatherDisplay::after,
+.todoDisplay::after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -68,6 +70,9 @@ input[type='text'] {
 
 @media screen and (min-width: 480px) {
   .weatherDisplay {
+    width: 500px;
+  }
+  .todoDisplay {
     width: 500px;
   }
 }
@@ -105,6 +110,11 @@ p {
 
 .todoList {
   width: 350px;
+}
+
+.todoDisplay {
+  display: flex;
+  justify-content: center;
 }
 
 .todoList li {
